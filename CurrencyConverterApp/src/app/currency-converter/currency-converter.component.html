@@ -1,0 +1,28 @@
+<div *ngIf="!loading">
+    <div class="filter">
+        <input type="text" placeholder="Filter by title..."
+        [(ngModel)]="searchString"
+        >
+    </div>
+    <ul *ngIf="currencyConverterService.currencyConverterList.length; else noCurrencies">
+        <li *ngFor="let curr of currencyConverterService.currencyConverterList | currencyfilter:searchString; let i = index">
+            <span [class.done]="curr.completed" >
+                <input type="checkbox" [checked] = "curr.completed" (checked)="onChange(curr.id)">
+                <strong>{{i+1}}</strong> {{ curr.title }}
+            </span>
+
+            <small>{{ curr.date | date: "medium" }}</small>
+
+            <small>{{ curr.amount }}</small>
+
+            <button class="rm" (click)="removeCur(curr.id)">&times;</button>
+        </li>
+    </ul>
+
+    <ng-template #noCurrencies>
+        <p style = "text-align-last: center;">
+            <span>No currencies</span>
+        </p>
+    </ng-template>
+</div>
+<p *ngIf="loading">Loading...</p>

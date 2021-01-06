@@ -1,0 +1,37 @@
+<div>
+    <input type="text" 
+    id="amount" 
+    placeholder="Amount"
+    [(ngModel)] = "amount"
+    (keydown.enter) = "calculate()"
+    />
+    <p>
+        <label for="currency">Choose your currency:</label>
+        <input list="currencies" name="currencyList" id="currencyList">
+        <label for="targetCurrency">Choose your target currency:</label>
+        <input list="currencies" name="targetCurrencyList" id="targetCurrencyList">
+
+        
+        <datalist id="currencies">
+          <option data-value="USD"><b>USD</b> - American Dollar</option>
+          <option value="Firefox">
+          <option value="Chrome">
+          <option value="Opera">
+          <option value="Safari">
+        </datalist>
+
+        <label for="selectCurrenciesList">Choose a currency(select tag):</label>
+
+        <select name="cars" id="selectCurrenciesList">
+            <option data-value="USD"><b>USD</b> - American Dollar</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+        </select>
+    </p>
+    <p>
+        <label>Result amount:</label>
+        <input type="text" id="targetAmount" placeholder="Target amount">
+    </p>
+    <button (click)="calculate()">Calculate</button>
+</div>
