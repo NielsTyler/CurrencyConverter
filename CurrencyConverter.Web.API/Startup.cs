@@ -20,6 +20,11 @@ namespace CurrencyConverter.Web.API
         {
             DependencyInjectionConfig.AddScope(services);
             services.AddControllers();
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -31,7 +36,8 @@ namespace CurrencyConverter.Web.API
             }
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCors(options => options.AllowAnyOrigin());
+            //app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

@@ -24,11 +24,16 @@ namespace CurrencyConverter.Web.API.Controllers
         {
             List<CurrencyRateViewModel> currenciesInfo = new List<CurrencyRateViewModel>();
 
+            //currenciesInfo.Add(
+            //    new CurrencyRateViewModel() { Code = "USD", Name = "American Dollars", Rate = 123.23M });
+            //currenciesInfo.Add(
+            //    new CurrencyRateViewModel() { Code = "EUR", Name = "Euro", Rate = 1.33M });
+
             currenciesInfo.Add(
-                new CurrencyRateViewModel() { Code = "USD", Name = "American Dollars", Rate = 123.23M });
+                new CurrencyRateViewModel() { title = "EURO", date = DateTime.Now, completed = false, amount = 10.23M  });
             currenciesInfo.Add(
-                new CurrencyRateViewModel() { Code = "EUR", Name = "Euro", Rate = 1.33M });
-            
+                new CurrencyRateViewModel() { title = "DOLL", date = DateTime.Now, completed = true });
+
             return currenciesInfo;
         }
     }
