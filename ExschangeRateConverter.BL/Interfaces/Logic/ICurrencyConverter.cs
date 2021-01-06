@@ -7,6 +7,6 @@ namespace CurrencyConverter.BL.Interfaces.Logic
 {
     public interface ICurrencyConverter
     {
-        decimal Convert(ICurrency currencyFrom, ICurrency currencyTo, decimal Amount);
+        decimal Convert(string currencyCodeFrom, string currencyCodeTo, decimal Amount);
     }
 }

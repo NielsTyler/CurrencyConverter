@@ -7,6 +7,6 @@ namespace CurrencyConverter.BL.Interfaces.Logic
 {
     public interface ICurrenciesFactory
     {
-        ICurrency GetCurrency(string code, decimal rate);
+        ICurrency GetCurrency(string code);
     }
 }

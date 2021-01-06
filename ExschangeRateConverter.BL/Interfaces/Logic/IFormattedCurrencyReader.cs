@@ -8,6 +8,6 @@ namespace CurrencyConverter.BL.Interfaces.Logic
 {
     public interface IFormattedCurrencyReader
     {
-        Dictionary<string, ICurrency> Read();
+        void Update(Dictionary<string, decimal> dictionary);
     }
 }

@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CurrencyConverter.BL.Classes.Logic;
+using CurrencyConverter.BL.Classes.StorageInMemory;
+using CurrencyConverter.BL.Interfaces.Logic;
+using CurrencyConverter.BL.Interfaces.Storage;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +14,11 @@ namespace CurrencyConverter.Web.API.App_Start
     {
         public static void AddScope(IServiceCollection services)
         {
-            //services.AddScoped<IApplicationContext, ApplicationContext>();
+            services.AddScoped<IDataProvider, CommonWebFilesReader>();
+            services.AddScoped<ICurrenciesFactory, CurrenciesFactory>();
+            services.AddScoped<IFormattedCurrencyReader, XMLCurrencyRatesReader>();
+            services.AddScoped<ICurrencyRatesStorage, CurrencyRatesRepository>();
+            services.AddScoped<ICurrencyConverter, CurrenciesConverter>();
         }
     }
 }

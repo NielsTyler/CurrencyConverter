@@ -4,14 +4,20 @@ using CurrencyConverter.BL.Interfaces.Logic;
 using CurrencyConverter.BL.Interfaces.Domain;
 using System;
 using System.Globalization;
+using CurrencyConverter.BL.Interfaces.Storage;
 
 namespace CurrencyConverter.BL.Classes.Logic { 
     public class CurrenciesFactory : ICurrenciesFactory
     {
-        public ICurrency GetCurrency(string code, decimal rate)
+        ICurrencyRatesStorage _exchangeRatesStorage;
+        public CurrenciesFactory(ICurrencyRatesStorage exchangeRatesStorage)
+        {
+            _exchangeRatesStorage = exchangeRatesStorage;
+        }
+        public ICurrency GetCurrency(string code)
         {
             return new CurrencyInfo() { Code = (ECurrencyCodes)Enum.Parse(typeof(ECurrencyCodes), code),
-                                        Rate = rate, 
+                                        Rate = _exchangeRatesStorage.GetRate(code), 
                                         Name = GetCurrencyFullName(code) };
         }
 

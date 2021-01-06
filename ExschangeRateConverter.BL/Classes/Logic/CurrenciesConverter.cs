@@ -8,14 +8,21 @@ namespace CurrencyConverter.BL.Classes.Logic
 {
     public class CurrenciesConverter : ICurrencyConverter
     {
-        //private ICurrency _baseCurrency;
-        private ICurrencyRatesStorage _storage;
+        ICurrenciesFactory _currenciesFactory;
 
-        public CurrenciesConverter()
+        public CurrenciesConverter(ICurrenciesFactory factory)
         {
+            _currenciesFactory = factory;
         }
 
-        public decimal Convert(ICurrency currencyFrom, ICurrency currencyTo, decimal Amount)
+        public decimal Convert(string currencyCodeFrom, string currencyCodeTo, decimal amount)
+        {
+            ICurrency currencyFrom = _currenciesFactory.GetCurrency(currencyCodeFrom);
+            ICurrency resultCurrency = _currenciesFactory.GetCurrency(currencyCodeTo);
+
+            return Convert(currencyFrom, resultCurrency, amount);
+        }
+        private decimal Convert(ICurrency currencyFrom, ICurrency currencyTo, decimal Amount)
         {
             return ConvertToBaseCurrency(currencyFrom, Amount) * currencyTo.Rate;
         }

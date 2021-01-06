@@ -4,8 +4,12 @@ namespace CurrencyConverter.BL.Interfaces.Storage
 {
     public interface ICurrencyRatesStorage
     {
+        decimal GetRate(string currencyCode);
+
+        void Add(string currencyCode, decimal currencyRate);
+
         void Update();
 
-        ICurrency GetCurrencyByCode(string currencyCode);
+        void Clear();
     }
 }

@@ -1,6 +1,4 @@
-﻿using CurrencyConverter.BL.Classes.Domain;
-using CurrencyConverter.BL.Enums;
-using CurrencyConverter.BL.Interfaces.Domain;
+﻿
 using CurrencyConverter.BL.Interfaces.Logic;
 using System;
 using System.Collections.Generic;
@@ -15,26 +13,24 @@ namespace CurrencyConverter.BL.Classes.Logic
 {
     public class XMLCurrencyRatesReader: IFormattedCurrencyReader
     {
-        private ICurrenciesFactory _currenciesFactory;
-        private IDataProvider _stringDataProvider;
+        private IDataProvider _xmlDataProvider;
         private const string CURRENCY_NODE = "Cube";
         private const string CODE_ATTR = "currency";
         private const string RATE_ATTR = "rate";
 
-        public XMLCurrencyRatesReader(ICurrenciesFactory currenciesFactory, IDataProvider stringDataProvider)
+        public XMLCurrencyRatesReader(IDataProvider xmlDataProvider)
         {
-            _currenciesFactory = currenciesFactory;
-            _stringDataProvider = stringDataProvider;
+            _xmlDataProvider = xmlDataProvider;     
         }
 
-        public Dictionary<string, ICurrency> Read()
+        public void Update(Dictionary<string, decimal> dictionary)
         {
-            var xmlData = _stringDataProvider.ReadWebFileAsync().Result;
+            var xmlData = _xmlDataProvider.ReadWebFileAsync().Result;
 
-            return SetUpDictionaryFromXML(xmlData);
+            SetUpDictionaryFromXML(dictionary, xmlData);
         }
 
-        public Dictionary<string, ICurrency> SetUpDictionaryFromXML(string xmlData)
+        private void SetUpDictionaryFromXML(Dictionary<string, decimal> dictionary, string xmlData)
         {
             XDocument doc = XDocument.Parse(xmlData);
             var currencyRatesElements = doc.Descendants().Where(p => p.Name.LocalName == CURRENCY_NODE && p.Attribute(CODE_ATTR) != null && p.Attribute(RATE_ATTR) != null);
@@ -42,26 +38,20 @@ namespace CurrencyConverter.BL.Classes.Logic
             if (currencyRatesElements != null && currencyRatesElements.Count() > 0)
             {
                 try
-                {
-                    Dictionary<string, ICurrency> resultDict = new Dictionary<string, ICurrency>();
-
+                {                    
                     foreach (var cNode in currencyRatesElements)
                     {
                         string code = cNode.Attribute(CODE_ATTR).Value;
 
-                        resultDict.Add(code, _currenciesFactory.GetCurrency(code, decimal.Parse(cNode.Attribute(RATE_ATTR).Value)));
+                        dictionary.Add(code, decimal.Parse(cNode.Attribute(RATE_ATTR).Value));
                     }
-
-                    return resultDict;
                 }
                 catch (Exception ex)
                 {
                     //Logger.
                     throw ex;
                 }                
-            }
-
-            return new Dictionary<string, ICurrency>();           
+            }    
         }
     }
 }

@@ -4,6 +4,8 @@ using CurrencyConverter.BL.Interfaces.Logic;
 using CurrencyConverter.BL.Classes.Logic;
 using CurrencyConverter.BL.Classes.Domain;
 using CurrencyConverter.BL.Interfaces.Domain;
+using CurrencyConverter.BL.Interfaces.Storage;
+using CurrencyConverter.BL.Classes.StorageInMemory;
 
 namespace CurrencyConverterTests
 {
@@ -12,18 +14,23 @@ namespace CurrencyConverterTests
         [Fact]
         public void HundredRubToUSDConvertingTest()
         {
-            ICurrencyConverter currConverter = new CurrenciesConverter();
-            ICurrenciesFactory currenciesFactory = new CurrenciesFactory();
+            //IDataProvider webDataProvider = new CommonWebFilesReader();
+            //IFormattedCurrencyReader formattedDataProvider = new XMLCurrencyRatesReader(webDataProvider);
+            //ICurrencyRatesStorage currencyRatesStorage = new CurrencyRatesRepository(formattedDataProvider);            
+            //ICurrenciesFactory currenciesFactory = new CurrenciesFactory(currencyRatesStorage);
+            //ICurrencyConverter currConverter = new CurrenciesConverter(currenciesFactory);
 
-            decimal rubRate = 90.0681M;
-            decimal usdRate = 1.2219M;
+            //decimal resultAmountOfDollars = currConverter.Convert(CurrencyConverter.BL.Enums.ECurrencyCodes.RUB.ToString(), CurrencyConverter.BL.Enums.ECurrencyCodes.USD.ToString(), 100M);
 
-            ICurrency rubles = currenciesFactory.GetCurrency(CurrencyConverter.BL.Enums.ECurrencyCodes.RUB.ToString(), rubRate);
-            ICurrency dollars = currenciesFactory.GetCurrency(CurrencyConverter.BL.Enums.ECurrencyCodes.USD.ToString(), usdRate);
+            //Assert.Equal(1.3566M, decimal.Round(resultAmountOfDollars, 4));
+           
 
-            decimal resultAmountOfDollars = currConverter.Convert(rubles, dollars, 100M);
+            //ICurrency rubles = currenciesFactory.GetCurrency(CurrencyConverter.BL.Enums.ECurrencyCodes.RUB.ToString(), rubRate);
+            //ICurrency dollars = currenciesFactory.GetCurrency(CurrencyConverter.BL.Enums.ECurrencyCodes.USD.ToString(), usdRate);
 
-            Assert.Equal(1.3566M, decimal.Round(resultAmountOfDollars, 4));
+            //decimal resultAmountOfDollars = currConverter.Convert(rubles, dollars, 100M);
+
+            //Assert.Equal(1.3566M, decimal.Round(resultAmountOfDollars, 4));
         }
     }
 }
