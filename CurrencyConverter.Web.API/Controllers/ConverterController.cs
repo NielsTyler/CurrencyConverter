@@ -30,6 +30,9 @@ namespace CurrencyConverter.Web.API.Controllers
             if (!dateFromHistory.HasValue)
                 dateFromHistory = DateTime.Now;
 
+            if (currrencyCodeFrom.Trim() == currencyCodeTarget.Trim())
+                return amount;
+
             if (String.IsNullOrEmpty(currrencyCodeFrom) || String.IsNullOrEmpty(currencyCodeTarget) || amount == 0)
             {
                 throw new ArgumentException(
