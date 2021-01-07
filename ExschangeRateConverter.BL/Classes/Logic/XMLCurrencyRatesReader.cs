@@ -1,5 +1,6 @@
 ﻿
 using CurrencyConverter.BL.Interfaces.Logic;
+using CurrencyConverter.BL.Interfaces.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,14 +24,14 @@ namespace CurrencyConverter.BL.Classes.Logic
             _xmlDataProvider = xmlDataProvider;     
         }
 
-        public void Update(Dictionary<string, decimal> dictionary)
+        public void Update(ICurrencyRatesStorage repository)
         {
             var xmlData = _xmlDataProvider.ReadWebFileAsync().Result;
 
-            SetUpDictionaryFromXML(dictionary, xmlData);
+            SetUpDictionaryFromXML(repository, xmlData);
         }
 
-        private void SetUpDictionaryFromXML(Dictionary<string, decimal> dictionary, string xmlData)
+        private void SetUpDictionaryFromXML(ICurrencyRatesStorage repository, string xmlData)
         {
             XDocument doc = XDocument.Parse(xmlData);
             var currencyRatesElements = doc.Descendants().Where(p => p.Name.LocalName == CURRENCY_NODE && p.Attribute(CODE_ATTR) != null && p.Attribute(RATE_ATTR) != null);
@@ -43,7 +44,7 @@ namespace CurrencyConverter.BL.Classes.Logic
                     {
                         string code = cNode.Attribute(CODE_ATTR).Value;
 
-                        dictionary.Add(code, decimal.Parse(cNode.Attribute(RATE_ATTR).Value));
+                        repository.Add(code, decimal.Parse(cNode.Attribute(RATE_ATTR).Value));
                     }
                 }
                 catch (Exception ex)

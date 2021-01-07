@@ -1,4 +1,5 @@
 ﻿using CurrencyConverter.BL.Interfaces.Domain;
+using CurrencyConverter.BL.Interfaces.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace CurrencyConverter.BL.Interfaces.Logic
 {
     public interface IFormattedCurrencyReader
     {
-        void Update(Dictionary<string, decimal> dictionary);
+        void Update(ICurrencyRatesStorage repository);
     }
 }

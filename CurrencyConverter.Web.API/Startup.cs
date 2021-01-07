@@ -34,15 +34,15 @@ namespace CurrencyConverter.Web.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
 
             app.UseRouting();
             app.UseCors(options => options.AllowAnyOrigin());
             //app.UseCors();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(builder => builder.MapControllers());
         }
     }
 }

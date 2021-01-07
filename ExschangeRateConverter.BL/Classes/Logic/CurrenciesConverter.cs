@@ -3,6 +3,7 @@ using CurrencyConverter.BL.Interfaces.Domain;
 using CurrencyConverter.BL.Interfaces.Logic;
 using CurrencyConverter.BL.Interfaces.Storage;
 using System;
+using System.Collections.Generic;
 
 namespace CurrencyConverter.BL.Classes.Logic
 {
@@ -22,6 +23,12 @@ namespace CurrencyConverter.BL.Classes.Logic
 
             return Convert(currencyFrom, resultCurrency, amount);
         }
+
+        public IEnumerable<ICurrency> GetCurrenciesInfo()
+        {
+            return _currenciesFactory.GetAllCurrenciesList();
+        }
+
         private decimal Convert(ICurrency currencyFrom, ICurrency currencyTo, decimal Amount)
         {
             return ConvertToBaseCurrency(currencyFrom, Amount) * currencyTo.Rate;

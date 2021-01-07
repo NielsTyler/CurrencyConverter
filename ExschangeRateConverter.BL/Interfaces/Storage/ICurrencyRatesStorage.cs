@@ -1,4 +1,4 @@
-﻿using CurrencyConverter.BL.Interfaces.Domain;
+﻿using System.Collections.Generic;
 
 namespace CurrencyConverter.BL.Interfaces.Storage
 {
@@ -11,5 +11,6 @@ namespace CurrencyConverter.BL.Interfaces.Storage
         void Update();
 
         void Clear();
+        IEnumerable<string> GetAvilableCurrenciesCodes();
     }
 }

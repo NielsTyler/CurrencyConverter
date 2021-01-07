@@ -1,5 +1,6 @@
 ﻿using CurrencyConverter.BL.Interfaces.Logic;
 using CurrencyConverter.BL.Interfaces.Storage;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,23 +10,28 @@ namespace CurrencyConverter.BL.Classes.StorageInMemory
     public class CurrencyRatesRepository : ICurrencyRatesStorage
     {
         private Dictionary<string, decimal> _dictionary = new Dictionary<string, decimal>();
-        IFormattedCurrencyReader _dataProvider;
+        private readonly IConfiguration Configuration;
+        private IFormattedCurrencyReader _dataProvider;
 
-        public CurrencyRatesRepository(IFormattedCurrencyReader dataProvider)
+        public CurrencyRatesRepository(IConfiguration configuration, IFormattedCurrencyReader dataProvider)
         {
+            Configuration = configuration;
             _dataProvider = dataProvider;
 
-            _dataProvider.Update(_dictionary);
+            Update();
         }
         public void Add(string currencyCode, decimal currencyRate)
-        {
+        {            
             _dictionary.Add(currencyCode, currencyRate);
         }
 
         public void Update()
         {
             Clear();
-            _dataProvider.Update(_dictionary);
+
+            var basicCurrencyCode = Configuration["BasicCurrencyCode"];
+            _dictionary.Add(basicCurrencyCode, 1);
+            _dataProvider.Update(this);
         }
 
         public decimal GetRate(string currencyCode)
@@ -45,5 +51,14 @@ namespace CurrencyConverter.BL.Classes.StorageInMemory
             _dictionary.Clear();
         }
 
+        public IEnumerable<string> GetAvilableCurrenciesCodes()
+        {
+            if (_dictionary != null)
+            {
+                return _dictionary.Keys;
+            }
+            else
+                return new List<string>();
+        }
     }
 }

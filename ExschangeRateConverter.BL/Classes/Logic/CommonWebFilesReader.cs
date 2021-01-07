@@ -1,4 +1,5 @@
 ﻿using CurrencyConverter.BL.Interfaces.Logic;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,8 +10,16 @@ namespace CurrencyConverter.BL.Classes.Logic
 {
     public class CommonWebFilesReader: IDataProvider
     {
+        private readonly IConfiguration Configuration;
         //private ILinkSearcher _pathFinder; //SearchForAppropriateLink() and etc
-        private const string DEFAULT_EXCHANGE_RATES_SOURCE = @"https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml?5e8b3df927838787a7aad713e2d4c372";
+        private readonly string DEFAULT_EXCHANGE_RATES_SOURCE;
+
+        public CommonWebFilesReader(IConfiguration configuration)
+        {
+            Configuration = configuration;
+
+            DEFAULT_EXCHANGE_RATES_SOURCE = Configuration["UrlCurrenciesInfoSource"];
+        }
         public async Task<string> ReadWebFileAsync(string url = null)
         {
             url ??= DEFAULT_EXCHANGE_RATES_SOURCE;

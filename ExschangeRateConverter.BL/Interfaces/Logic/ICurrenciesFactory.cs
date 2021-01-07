@@ -8,5 +8,6 @@ namespace CurrencyConverter.BL.Interfaces.Logic
     public interface ICurrenciesFactory
     {
         ICurrency GetCurrency(string code);
+        IEnumerable<ICurrency> GetAllCurrenciesList();
     }
 }

@@ -5,6 +5,7 @@ using CurrencyConverter.BL.Interfaces.Domain;
 using System;
 using System.Globalization;
 using CurrencyConverter.BL.Interfaces.Storage;
+using System.Collections.Generic;
 
 namespace CurrencyConverter.BL.Classes.Logic { 
     public class CurrenciesFactory : ICurrenciesFactory
@@ -14,6 +15,7 @@ namespace CurrencyConverter.BL.Classes.Logic {
         {
             _exchangeRatesStorage = exchangeRatesStorage;
         }
+
         public ICurrency GetCurrency(string code)
         {
             return new CurrencyInfo() { Code = (ECurrencyCodes)Enum.Parse(typeof(ECurrencyCodes), code),
@@ -42,10 +44,24 @@ namespace CurrencyConverter.BL.Classes.Logic {
             foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
             {
                 RegionInfo ri = new RegionInfo(ci.LCID);
+
                 if (ri.ISOCurrencySymbol == isoCode)
                     return ci;
             }
             throw new Exception("Currency code " + isoCode + " is not supported by the current .Net Framework.");
+        }
+
+        public IEnumerable<ICurrency> GetAllCurrenciesList()
+        {
+            var codes = _exchangeRatesStorage.GetAvilableCurrenciesCodes();
+            var currenciesList = new List<ICurrency>();
+
+            foreach (var code in codes)
+            {
+                currenciesList.Add(GetCurrency(code));
+            }
+
+            return currenciesList;
         }
     }
 }

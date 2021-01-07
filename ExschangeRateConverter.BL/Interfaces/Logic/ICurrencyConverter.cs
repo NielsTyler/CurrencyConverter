@@ -8,5 +8,6 @@ namespace CurrencyConverter.BL.Interfaces.Logic
     public interface ICurrencyConverter
     {
         decimal Convert(string currencyCodeFrom, string currencyCodeTo, decimal Amount);
+        IEnumerable<ICurrency> GetCurrenciesInfo();
     }
 }
