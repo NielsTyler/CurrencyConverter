@@ -4,17 +4,19 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CurrencyConverterComponent } from './currency-converter/currency-converter.component';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CurrencyConverterFormComponent } from './currency-converter-form/currency-converter-form.component';
-import {FormsModule} from '@angular/forms';
-import {CurrencyFilterPipe} from './shared/currencyFilter.pipe'
+import { FormsModule } from '@angular/forms';
+import { CurrencyFilterPipe } from './shared/currencyFilter.pipe';
+import { CConverterFormComponent } from './cconverter-form/cconverter-form.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     CurrencyConverterComponent,
     CurrencyConverterFormComponent,
-    CurrencyFilterPipe
+    CurrencyFilterPipe,
+    CConverterFormComponent
   ],
   imports: [
     BrowserModule,

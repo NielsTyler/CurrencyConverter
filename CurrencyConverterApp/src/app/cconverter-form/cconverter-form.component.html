@@ -1,0 +1,29 @@
+<div *ngIf="!loading">
+  <p>
+    <label for="CurrenciesList">Choose a currency:</label>
+
+    <select [(ngModel)]="currencyCode" name="CurrenciesList" id="CurrenciesList">
+      <option *ngFor="let curr of this.currencyDataService.currencyItemsList; let i = index" data-value="{{ curr.code }}"><b>{{ curr.code }}</b> - {{ curr.title }}</option>
+    </select>
+  </p>
+  <p>
+    <label for="TargetCurrenciesList">Choose a target currency:</label>
+
+    <select [(ngModel)]="targetCurrencyCode" name="TargetCurrenciesList" id="TargetCurrenciesList">
+      <option *ngFor="let curr of this.currencyDataService.currencyItemsList; let i = index" data-value="{{ curr.code }}"><b>{{ curr.code }}</b> - {{ curr.title }}</option>
+    </select>
+  </p>
+  <p>
+    <label>Amount for exchange:</label>
+        <input type="text" id="sourceAmount" [(ngModel)]="sourceAmount" (keydown.enter) = "convert()" placeholder="0" />
+  </p>
+  <p>
+    <button (click)="convert()">Calculate</button>
+  </p>
+  <p *ngIf="result">
+    Tagret amount({{targetCurrencyCode}}):<strong>{{result}}</strong>
+  </p>
+</div>
+<div *ngIf="loading">
+  <span>Loading...</span>
+</div>
